@@ -26,4 +26,10 @@ public class ScreenOffAdminReceiver extends DeviceAdminReceiver {
 				context.getString(R.string.admin_receiver_status_disabled));
 	}
 
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		super.onReceive(context, intent);
+	}
+
+
 }

@@ -185,7 +185,7 @@ public class DroidHeadService extends Service {
 
 
 
-    static void turnOffScreen(final Context context){
+    public static void turnOffScreen(final Context context){
         // turn off screen
         try {
             DevicePolicyManager policyManager = (DevicePolicyManager) context
@@ -198,6 +198,7 @@ public class DroidHeadService extends Service {
                 policyManager.lockNow();
             } else {
 
+
                 Toast.makeText(context, R.string.device_admin_not_enabled,
                         Toast.LENGTH_LONG).show();
             }
@@ -208,6 +209,7 @@ public class DroidHeadService extends Service {
             Log.d("DroidTurnOff", "Erro: " + ex.getMessage() );
         }
     }
+
 
 }
 
