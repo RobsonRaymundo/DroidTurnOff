@@ -13,6 +13,7 @@ import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.os.Vibrator;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -69,8 +70,7 @@ public class DroidHeadService extends Service {
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
         mIntentService = intent;
-
-
+        TimeSleep(1000);
     }
 
     @Override
@@ -91,7 +91,16 @@ public class DroidHeadService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (chatHead != null) windowManager.removeView(chatHead);
+        Vibrar(100);
+    }
 
+    private void Vibrar(int valor) {
+        try {
+            Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(valor);
+        } catch (Exception ex) {
+        }
     }
 
     private void InicializarVariavel() {
@@ -143,6 +152,7 @@ public class DroidHeadService extends Service {
                 else
                 {
                     context.stopService(mIntentService);
+                    TimeSleep(1000);
 
                 }
                 return super.onSingleTapConfirmed(e);
