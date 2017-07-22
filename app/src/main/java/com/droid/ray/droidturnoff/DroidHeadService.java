@@ -110,7 +110,7 @@ public class DroidHeadService extends Service {
         onTouchListener = new TouchListener();
 
         chatHead = new ImageView(context);
-        chatHead.setImageResource(R.mipmap.viewrec);
+        chatHead.setImageResource(R.mipmap.stoprec);
         StateButton = EnumStateButton.VIEW;
         params.gravity = Gravity.CENTER;
         windowManager.addView(chatHead, params);
@@ -133,7 +133,7 @@ public class DroidHeadService extends Service {
                 }
                 else
                 {
-                    chatHead.setImageResource(R.mipmap.viewrec);
+                    chatHead.setImageResource(R.mipmap.stoprec);
                     StateButton = EnumStateButton.VIEW;
                 }
                 return super.onDoubleTap(e);
@@ -152,7 +152,7 @@ public class DroidHeadService extends Service {
                 else
                 {
                     context.stopService(mIntentService);
-                    TimeSleep(1000);
+                    TimeSleep(100);
 
                 }
                 return super.onSingleTapConfirmed(e);

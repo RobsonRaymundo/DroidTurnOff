@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">DroidTurnOff</string>
-    <string name="device_admin_not_enabled">Screen Off application was not marked as Device Administrator. Please check Security settings.</string>
-    <string name="device_admin_description">Turns the screen off and locks your device with a single touch.</string>
-    <string name="admin_receiver_status_enabled">Screen Off was added as Device Administrator</string>
-    <string name="admin_receiver_status_disabled">Screen Off was removed from Device Administrators list</string>
+    <string name="device_admin_not_enabled">É necessário acesso de administrador. Habilite o DroidTurnOff em Config./Segurança/Administradores de dispositivos.</string>
+    <string name="device_admin_description">Desliga a tela e bloqueia seu dispositivo com um único toque.</string>
+    <string name="admin_receiver_status_enabled">DroidTurnOff foi adicionado como Administrador de Dispositivo</string>
+    <string name="admin_receiver_status_disabled">DroidTurnOff foi removido da lista de administradores de dispositivos</string>
 </resources>
