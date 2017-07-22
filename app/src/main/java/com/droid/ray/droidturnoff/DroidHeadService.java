@@ -1,6 +1,6 @@
 package com.droid.ray.droidturnoff;
 
-import android.annotation.TargetApi;
+
 import android.app.Service;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
@@ -8,33 +8,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.os.Vibrator;
-import android.provider.Settings;
 import android.speech.SpeechRecognizer;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.OrientationEventListener;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Locale;
 
 
 public class DroidHeadService extends Service {
@@ -47,25 +35,8 @@ public class DroidHeadService extends Service {
     private float initialTouchY;
     private int orientationEvent;
     private Context context;
-    private AsyncTask asyncTask;
     private View.OnTouchListener onTouchListener;
-    private String chamadaPorComandoTexto;
-    private SensorManager sensorManager;
-    public static boolean closeSensorProximity;
-    public static boolean openSensorProximity;
-    public static boolean currentCloseSensorProximity;
-
-    private boolean necessarioComandoDepoisDoInit = false;
-    private boolean aceitaComandoPorVoz;
-    private SensorEventListener sensorEventListener;
-    private SpeechRecognizer stt;
-    private Intent mIntentRecognizer;
     private Intent mIntentService;
-
-
-    private PowerManager mPowerManager;
-    private PowerManager.WakeLock mWakeLock;
-
 
     public enum EnumStateButton {
         CLOSE,
@@ -73,9 +44,6 @@ public class DroidHeadService extends Service {
     }
 
     private EnumStateButton StateButton;
-
-
-    OrientationEventListener myOrientationEventListener;
 
     WindowManager.LayoutParams params = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -141,16 +109,6 @@ public class DroidHeadService extends Service {
 
     private void InicializarAcao() {
         chatHead.setOnTouchListener(onTouchListener);
-
-        myOrientationEventListener = new OrientationEventListener(context, SensorManager.SENSOR_DELAY_NORMAL) {
-            @Override
-            public void onOrientationChanged(int arg0) {
-                // TODO Auto-generated method stub
-                orientationEvent = arg0;
-            }
-        };
-
-
     }
 
 
@@ -200,9 +158,6 @@ public class DroidHeadService extends Service {
                     initialY = params.y;
                     initialTouchX = event.getRawX();
                     initialTouchY = event.getRawY();
-                    if (myOrientationEventListener.canDetectOrientation()) {
-                        myOrientationEventListener.enable();
-                    }
                     return true;
                 case MotionEvent.ACTION_MOVE:
                     Integer totalMoveX = (int) (event.getRawX() - initialTouchX);
