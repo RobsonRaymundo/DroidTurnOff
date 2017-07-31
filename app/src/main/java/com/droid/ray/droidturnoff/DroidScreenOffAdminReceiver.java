@@ -9,7 +9,7 @@ import android.widget.Toast;
  * Receiver class which shows notifications when the Device Administrator status
  * of the application changes.
  */
-public class ScreenOffAdminReceiver extends DeviceAdminReceiver {
+public class DroidScreenOffAdminReceiver extends DeviceAdminReceiver {
 	private void showToast(Context context, String msg) {
 		Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
 	}

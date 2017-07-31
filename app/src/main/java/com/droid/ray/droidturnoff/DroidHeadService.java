@@ -19,7 +19,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-
 public class DroidHeadService extends Service {
     private WindowManager windowManager;
     private ImageView chatHead;
@@ -81,18 +80,14 @@ public class DroidHeadService extends Service {
 
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (chatHead != null) windowManager.removeView(chatHead);
-        Vibrar(100);
-    }
-
     private void Vibrar(int valor) {
         try {
+            TimeSleep(500);
             Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
             v.vibrate(valor);
+            TimeSleep(500);
         } catch (Exception ex) {
+            Log.d("DroidTurnOff", "Vibrar: " + ex.getMessage());
         }
     }
 
@@ -107,6 +102,14 @@ public class DroidHeadService extends Service {
         StateButton = EnumStateButton.VIEW;
         params.gravity = Gravity.CENTER;
         windowManager.addView(chatHead, params);
+
+        try {
+            params.x = DroidPreferences.GetInteger(context, "params.x");
+            params.y = DroidPreferences.GetInteger(context, "params.y");
+            windowManager.updateViewLayout(chatHead, params);
+        } catch (Exception ex) {
+            Log.d("DroidTurnOff", "InicializarVariavel: " + ex.getMessage());
+        }
     }
 
     private void InicializarAcao() {
@@ -123,9 +126,7 @@ public class DroidHeadService extends Service {
                 if (StateButton == EnumStateButton.VIEW) {
                     chatHead.setImageResource(R.mipmap.closerec);
                     StateButton = EnumStateButton.CLOSE;
-                }
-                else
-                {
+                } else {
                     chatHead.setImageResource(R.mipmap.stoprec);
                     StateButton = EnumStateButton.VIEW;
                 }
@@ -141,11 +142,9 @@ public class DroidHeadService extends Service {
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 if (StateButton == EnumStateButton.VIEW) {
                     turnOffScreen(context);
-                }
-                else
-                {
+                } else {
+                    Vibrar(100);
                     context.stopService(mIntentService);
-                    TimeSleep(100);
 
                 }
                 return super.onSingleTapConfirmed(e);
@@ -168,6 +167,11 @@ public class DroidHeadService extends Service {
                     Integer totalMoveY = (int) (event.getRawY() - initialTouchY);
                     params.y = initialY + totalMoveY;
                     windowManager.updateViewLayout(chatHead, params);
+                    try {
+                        DroidPreferences.SetInteger(context, "params.x", params.x);
+                        DroidPreferences.SetInteger(context, "params.y", params.y);
+                    } catch (Exception ex) {
+                    }
                     return true;
             }
 
@@ -177,29 +181,26 @@ public class DroidHeadService extends Service {
     }
 
 
+    @Override
+    public void onDestroy() {
+        if (chatHead != null) windowManager.removeView(chatHead);
+        super.onDestroy();
+    }
 
-    public static void turnOffScreen(final Context context){
+    public static void turnOffScreen(final Context context) {
         // turn off screen
         try {
-            DevicePolicyManager policyManager = (DevicePolicyManager) context
-                    .getSystemService(Context.DEVICE_POLICY_SERVICE);
-            ComponentName adminReceiver = new ComponentName(context,
-                    ScreenOffAdminReceiver.class);
-            boolean admin = policyManager.isAdminActive(adminReceiver);
-            if (admin) {
-
-                policyManager.lockNow();
-            } else {
-
-
-                Toast.makeText(context, R.string.device_admin_not_enabled,
-                        Toast.LENGTH_LONG).show();
+            if (!DroidShowDeviceAdmin.EnabledAdminAndLock(context)) {
+                Intent intent = new Intent(context, DroidMainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
 
-        }
-        catch (Exception ex)
-        {
-            Log.d("DroidTurnOff", "Erro: " + ex.getMessage() );
+        } catch (Exception ex) {
+            Toast.makeText(context, R.string.device_admin_not_enabled,
+                    Toast.LENGTH_LONG).show();
+            Log.d("DroidTurnOff", "turnOffScreen: " + ex.getMessage());
+
         }
     }
 

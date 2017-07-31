@@ -16,30 +16,20 @@ public class DroidMainActivity extends AppCompatActivity {
     private static final int RESULT_ENABLE = RESULT_CANCELED;
     private Context context;
 
+    public Object getThis()
+    {
+        return this;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         context = getBaseContext();
 
         try {
-            DevicePolicyManager policyManager = (DevicePolicyManager) context
-                    .getSystemService(Context.DEVICE_POLICY_SERVICE);
-            ComponentName adminReceiver = new ComponentName(context,
-                    ScreenOffAdminReceiver.class);
-            boolean admin = policyManager.isAdminActive(adminReceiver);
-
-            if (!admin) {
-
-                ComponentName mDeviceAdminSample = new ComponentName(this, ScreenOffAdminReceiver.class);
-                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-
-                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN,
-                        mDeviceAdminSample);
-                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,
-                        "You need to activate Device Administrator to perform phonelost tasks!");
-                startActivity(intent);
+            if (!DroidShowDeviceAdmin.EnabledAdmin(this)) {
+              DroidShowDeviceAdmin.Show(this);
             }
 
         } catch (Exception ex) {
