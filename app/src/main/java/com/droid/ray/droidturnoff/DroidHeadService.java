@@ -11,6 +11,7 @@ import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.Display;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -59,35 +60,57 @@ public class DroidHeadService extends Service {
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);
-        mIntentService = intent;
-        TimeSleep(1000);
-    }
-
-    @Override
     public void onCreate() {
-
         super.onCreate();
         InicializarVariavel();
         InicializarAcao();
+        AtualizarPosicao();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         //call widget update methods/services/broadcasts
-
+        Log.d("DroidTurnOff", "onTouch - Neworientation: " + newConfig.orientation);
+        //GravarPosicaoAtual();
+        AtualizarPosicao();
     }
 
     private void Vibrar(int valor) {
         try {
-            TimeSleep(500);
             Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
             v.vibrate(valor);
-            TimeSleep(500);
         } catch (Exception ex) {
             Log.d("DroidTurnOff", "Vibrar: " + ex.getMessage());
+        }
+    }
+
+    private void AtualizarPosicao() {
+        try {
+            if (DroidPreferences.GetInteger(context, "orientationActual") == 2 || getResources().getConfiguration().orientation == 2) {
+                params.x = DroidPreferences.GetInteger(context, "params.y");
+                params.y = DroidPreferences.GetInteger(context, "params.x");
+            } else {
+                params.x = DroidPreferences.GetInteger(context, "params.x");
+                params.y = DroidPreferences.GetInteger(context, "params.y");
+            }
+
+            windowManager.updateViewLayout(chatHead, params);
+
+        } catch (Exception ex) {
+            Log.d("DroidTurnOff", "InicializarVariavel: " + ex.getMessage());
+        }
+
+        Log.d("DroidTurnOff", "onTouch - x: " + DroidPreferences.GetInteger(context, "params.x"));
+        Log.d("DroidTurnOff", "onTouch - y: " + DroidPreferences.GetInteger(context, "params.y"));
+    }
+
+    private void GravarPosicaoAtual() {
+        try {
+            DroidPreferences.SetInteger(context, "params.x", params.x);
+            DroidPreferences.SetInteger(context, "params.y", params.y);
+            DroidPreferences.SetInteger(context, "orientationActual", getResources().getConfiguration().orientation);
+        } catch (Exception ex) {
         }
     }
 
@@ -103,13 +126,6 @@ public class DroidHeadService extends Service {
         params.gravity = Gravity.CENTER;
         windowManager.addView(chatHead, params);
 
-        try {
-            params.x = DroidPreferences.GetInteger(context, "params.x");
-            params.y = DroidPreferences.GetInteger(context, "params.y");
-            windowManager.updateViewLayout(chatHead, params);
-        } catch (Exception ex) {
-            Log.d("DroidTurnOff", "InicializarVariavel: " + ex.getMessage());
-        }
     }
 
     private void InicializarAcao() {
@@ -144,7 +160,15 @@ public class DroidHeadService extends Service {
                     turnOffScreen(context);
                 } else {
                     Vibrar(100);
-                    context.stopService(mIntentService);
+
+                    try {
+                        stopSelf();
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.d("DroidTurnOff", "stopSelf: " + ex.getMessage());
+                    }
+
 
                 }
                 return super.onSingleTapConfirmed(e);
@@ -167,11 +191,7 @@ public class DroidHeadService extends Service {
                     Integer totalMoveY = (int) (event.getRawY() - initialTouchY);
                     params.y = initialY + totalMoveY;
                     windowManager.updateViewLayout(chatHead, params);
-                    try {
-                        DroidPreferences.SetInteger(context, "params.x", params.x);
-                        DroidPreferences.SetInteger(context, "params.y", params.y);
-                    } catch (Exception ex) {
-                    }
+                    GravarPosicaoAtual();
                     return true;
             }
 
@@ -183,8 +203,8 @@ public class DroidHeadService extends Service {
 
     @Override
     public void onDestroy() {
-        if (chatHead != null) windowManager.removeView(chatHead);
         super.onDestroy();
+        if (chatHead != null) windowManager.removeView(chatHead);
     }
 
     public static void turnOffScreen(final Context context) {
