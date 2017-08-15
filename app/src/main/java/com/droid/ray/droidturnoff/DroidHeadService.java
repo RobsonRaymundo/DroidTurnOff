@@ -1,10 +1,12 @@
 package com.droid.ray.droidturnoff;
 
 
+import android.app.AlertDialog;
 import android.app.Service;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
@@ -206,6 +208,9 @@ public class DroidHeadService extends Service {
         super.onDestroy();
         if (chatHead != null) windowManager.removeView(chatHead);
     }
+
+
+
 
     public static void turnOffScreen(final Context context) {
         // turn off screen
