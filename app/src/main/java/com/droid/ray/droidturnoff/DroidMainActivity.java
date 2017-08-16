@@ -31,16 +31,19 @@ public class DroidMainActivity extends AppCompatActivity {
         if (exibeTelaInicial) {
             setTheme(R.style.AppTheme);
             ShowDialog();
-        } else {
-            Intent intentService = new Intent(getBaseContext(), DroidHeadService.class);
-            startService(intentService);
-
-            finish();
-
         }
-
+        else {
+            finish();
+        }
         super.onCreate(savedInstanceState);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intentService = new Intent(getBaseContext(), DroidHeadService.class);
+        startService(intentService);
     }
 
     private void ShowDeviceAdmin() {

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.os.Vibrator;
@@ -33,6 +34,7 @@ public class DroidHeadService extends Service {
     private Context context;
     private View.OnTouchListener onTouchListener;
     private Intent mIntentService;
+    private boolean killService = false;
 
     public enum EnumStateButton {
         CLOSE,
@@ -164,6 +166,7 @@ public class DroidHeadService extends Service {
                     Vibrar(100);
 
                     try {
+                        killService = true;
                         stopSelf();
                     }
                     catch (Exception ex)
@@ -207,6 +210,12 @@ public class DroidHeadService extends Service {
     public void onDestroy() {
         super.onDestroy();
         if (chatHead != null) windowManager.removeView(chatHead);
+
+        if (!killService) {
+            Intent broadcastIntent = new Intent("com.droid.ray.droidturnoff.ACTION_RESTART_SERVICE");
+            sendBroadcast(broadcastIntent);
+            Log.d("DroidBattery", "DroidServiceScreen - onDestroy");
+        }
     }
 
 
