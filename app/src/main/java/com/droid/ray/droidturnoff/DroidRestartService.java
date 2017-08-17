@@ -14,7 +14,7 @@ public class DroidRestartService extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Intent intentService = new Intent(context, DroidHeadService.class);
         context.startService(intentService);
-        Log.d("DroidBattery", "DroidRestartService - onReceive ");
+        Log.d("DroidTurnOff", "DroidRestartService - onReceive ");
 
     }
 }

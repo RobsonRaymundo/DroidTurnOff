@@ -17,14 +17,14 @@ public class DroidRestartApp extends BroadcastReceiver {
             context.stopService(intentService);
 
         } catch (Exception ex) {
-            Log.d("DroidBattery", "DroidRestartApp - onReceive - stopService - Erro: " + ex.getMessage());
+            Log.d("DroidTurnOff", "DroidRestartApp - onReceive - stopService - Erro: " + ex.getMessage());
         }
         try {
             context.startService(intentService);
-            Log.d("DroidBattery", "DroidRestartApp - onReceive ");
+            Log.d("DroidTurnOff", "DroidRestartApp - onReceive ");
 
         } catch (Exception ex) {
-            Log.d("DroidBattery", "DroidRestartApp - onReceive - startService - Erro: " + ex.getMessage());
+            Log.d("DroidTurnOff", "DroidRestartApp - onReceive - startService - Erro: " + ex.getMessage());
         }
     }
 }

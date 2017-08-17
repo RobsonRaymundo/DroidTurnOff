@@ -11,8 +11,10 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.support.annotation.IntDef;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
@@ -60,6 +62,7 @@ public class DroidHeadService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // Not used
+        Log.d("DroidTurnOff", "DroidHeadService - onBind");
         return null;
     }
 
@@ -69,6 +72,7 @@ public class DroidHeadService extends Service {
         InicializarVariavel();
         InicializarAcao();
         AtualizarPosicao();
+        Log.d("DroidTurnOff", "DroidHeadService - onCreate");
     }
 
     @Override
@@ -205,6 +209,13 @@ public class DroidHeadService extends Service {
 
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d("DroidTurnOff", "DroidHeadService - onStartCommand");
+        return START_NOT_STICKY;
+    }
+
+
 
     @Override
     public void onDestroy() {
@@ -214,10 +225,46 @@ public class DroidHeadService extends Service {
         if (!killService) {
             Intent broadcastIntent = new Intent("com.droid.ray.droidturnoff.ACTION_RESTART_SERVICE");
             sendBroadcast(broadcastIntent);
-            Log.d("DroidBattery", "DroidServiceScreen - onDestroy");
+            Log.d("DroidTurnOff", "DroidHeadService - onDestroy");
         }
     }
 
+    @Override
+    public boolean onUnbind(Intent intent) {
+        Log.d("DroidTurnOff", "DroidHeadService - onUnbind");
+        return super.onUnbind(intent);
+
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+        Log.d("DroidTurnOff", "DroidHeadService - onTaskRemoved");
+        
+        if (!killService) {
+            Intent broadcastIntent = new Intent("com.droid.ray.droidturnoff.ACTION_RESTART_SERVICE");
+            sendBroadcast(broadcastIntent);
+            Log.d("DroidTurnOff", "DroidHeadService - onDestroy");
+        }
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        Log.d("DroidTurnOff", "DroidHeadService - onTrimMemory");
+        super.onTrimMemory(level);
+    }
+
+    @Override
+    public void onLowMemory() {
+        Log.d("DroidTurnOff", "DroidHeadService - onLowMemory");
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onRebind(Intent intent) {
+        Log.d("DroidTurnOff", "DroidHeadService - onRebind");
+        super.onRebind(intent);
+    }
 
 
 
