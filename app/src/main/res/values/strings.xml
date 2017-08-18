@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Droid Turn Off</string>
-    <string name="device_admin_not_enabled">É necessário acesso de administrador. Habilite o Droid Turn Off em Configuração / Segurança / Administradores de dispositivos.</string>
+    <string name="app_name">Turn Off</string>
+    <string name="device_admin_not_enabled">É necessário acesso de administrador. Habilite o Turn Off em Configuração / Segurança / Administradores de dispositivos.</string>
     <string name="device_admin_description">Desliga a tela e bloqueia seu dispositivo com um único toque.</string>
-    <string name="admin_receiver_status_enabled">Droid Turn Off foi adicionado como Administrador de Dispositivo</string>
-    <string name="admin_receiver_status_disabled">Droid Turn Off foi removido da lista de administradores de dispositivos</string>
+    <string name="admin_receiver_status_enabled">Turn Off foi adicionado como Administrador de Dispositivo</string>
+    <string name="admin_receiver_status_disabled">Turn Off foi removido da lista de administradores de dispositivos</string>
     <string name="ok">Sim</string>
     <string name="cancel">Não</string>
     <string name="messageAdmin">Este aplicativo usa a permissão de administrador de dispositivos, para poder desligar a tela do seu smartphone. Deseja abrir a tela de configuração ?</string>

@@ -240,7 +240,7 @@ public class DroidHeadService extends Service {
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
         Log.d("DroidTurnOff", "DroidHeadService - onTaskRemoved");
-        
+
         if (!killService) {
             Intent broadcastIntent = new Intent("com.droid.ray.droidturnoff.ACTION_RESTART_SERVICE");
             sendBroadcast(broadcastIntent);
