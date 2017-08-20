@@ -29,6 +29,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         android:supportsRtl="true">
         <activity
             android:name=".DroidConfigurationActivity"
@@ -73,7 +74,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".DroidTurnOffActivity">
+        <activity android:name=".DroidTurnOffActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.app.action.TURN_OFF" />
             </intent-filter>

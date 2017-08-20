@@ -36,11 +36,6 @@ public class DroidConfigurationActivity extends PreferenceActivity implements Sh
     protected void onCreate(Bundle savedInstanceState) {
         boolean enabledAdmin = DroidShowDeviceAdmin.EnabledAdmin(this);
 
-        if (enabledAdmin) {
-            setTheme(R.style.TranslucentTheme);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
         context = getBaseContext();
         super.onCreate(savedInstanceState);
 
@@ -53,7 +48,7 @@ public class DroidConfigurationActivity extends PreferenceActivity implements Sh
             PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
         }
 
-//        Log.d("DroidTurnOff", "onCreate ");
+        Log.d("DroidTurnOff", "onCreate ");
 
     }
 
@@ -81,10 +76,7 @@ public class DroidConfigurationActivity extends PreferenceActivity implements Sh
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (DroidCommon.AtivarBotaoFlutuante(context)) {
-            Intent intentService = new Intent(getBaseContext(), DroidHeadService.class);
-            startService(intentService);
-        }
+        DroidCommon.stopStartService(context, DroidCommon.AtivarBotaoFlutuante(context));
     }
 
     private void ShowDeviceAdmin() {
