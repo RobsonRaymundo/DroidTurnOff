@@ -42,10 +42,7 @@ public class DroidConfigurationActivity extends PreferenceActivity implements Sh
         shortcutIntent.setAction(Intent.ACTION_MAIN);
         Intent intent = new Intent();
         intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "Turn Off");
-        intent.putExtra(Intent.EXTRA_TITLE, "Turn Off");
-
-        intent.putExtra("ShortCut", "sim");
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "Desligar");
         intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                 Intent.ShortcutIconResource.fromContext(
                         getApplicationContext(), R.mipmap.button));
