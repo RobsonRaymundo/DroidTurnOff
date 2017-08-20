@@ -12,19 +12,6 @@ import android.util.Log;
 public class DroidRestartApp extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent intentService = new Intent(context, DroidHeadService.class);
-        try {
-            context.stopService(intentService);
-
-        } catch (Exception ex) {
-            Log.d("DroidTurnOff", "DroidRestartApp - onReceive - stopService - Erro: " + ex.getMessage());
-        }
-        try {
-            context.startService(intentService);
-            Log.d("DroidTurnOff", "DroidRestartApp - onReceive ");
-
-        } catch (Exception ex) {
-            Log.d("DroidTurnOff", "DroidRestartApp - onReceive - startService - Erro: " + ex.getMessage());
-        }
+        DroidCommon.stopStartService(context, DroidCommon.AtivarBotaoFlutuante(context));
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="telaConfig"
+        android:title="@string/txt_tela_Config">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="spf_botaoFlutuante"
+            android:summary="@string/spf_usar_botao_flutuante"
+            android:title="@string/txt_titulo"></SwitchPreference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

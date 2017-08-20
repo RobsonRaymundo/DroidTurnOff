@@ -7,4 +7,9 @@
     <string name="ok">Sim</string>
     <string name="cancel">Não</string>
     <string name="messageAdmin">Este aplicativo usa a permissão de administrador de dispositivos, para poder desligar a tela do seu smartphone. Deseja abrir a tela de configuração ?</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="txt_tela_Config">Tela de Configuração</string>
+    <string name="spf_usar_botao_flutuante">Ativar um botão flutuante ao invés do icone tradicional do android para desligar a tela</string>
+    <string name="txt_titulo">Botão flutuante</string>
+
 </resources>

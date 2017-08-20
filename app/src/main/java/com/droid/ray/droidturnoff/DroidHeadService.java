@@ -165,7 +165,7 @@ public class DroidHeadService extends Service {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 if (StateButton == EnumStateButton.VIEW) {
-                    turnOffScreen(context);
+                   DroidCommon.turnOffScreen(context);
                 } else {
                     Vibrar(100);
 
@@ -264,25 +264,6 @@ public class DroidHeadService extends Service {
     public void onRebind(Intent intent) {
         Log.d("DroidTurnOff", "DroidHeadService - onRebind");
         super.onRebind(intent);
-    }
-
-
-
-    public static void turnOffScreen(final Context context) {
-        // turn off screen
-        try {
-            if (!DroidShowDeviceAdmin.EnabledAdminAndLock(context)) {
-                Intent intent = new Intent(context, DroidMainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-
-        } catch (Exception ex) {
-            Toast.makeText(context, R.string.device_admin_not_enabled,
-                    Toast.LENGTH_LONG).show();
-            Log.d("DroidTurnOff", "turnOffScreen: " + ex.getMessage());
-
-        }
     }
 
 

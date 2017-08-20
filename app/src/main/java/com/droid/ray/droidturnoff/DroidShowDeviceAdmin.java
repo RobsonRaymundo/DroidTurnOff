@@ -40,6 +40,7 @@ public class DroidShowDeviceAdmin {
         if (admin) {
             policyManager.lockNow();
         }
+        //else Show(context);
         return admin;
     }
 }

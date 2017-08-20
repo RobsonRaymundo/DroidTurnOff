@@ -12,9 +12,7 @@ import android.util.Log;
 public class DroidRestartService extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent intentService = new Intent(context, DroidHeadService.class);
-        context.startService(intentService);
-        Log.d("DroidTurnOff", "DroidRestartService - onReceive ");
+        DroidCommon.stopStartService(context, DroidCommon.AtivarBotaoFlutuante(context));
 
     }
 }
