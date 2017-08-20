@@ -10,13 +10,7 @@ public class DroidTurnOffActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            DroidCommon.turnOffScreen(getBaseContext());
-        } catch (
-                Exception ex)
-        {
-            Log.d("DroidTurnOff", "DroidTurnOffActivity - onCreate - Erro: " + ex.getMessage());
-        }
+        DroidCommon.turnOffScreen(getBaseContext());
         finish();
     }
 }

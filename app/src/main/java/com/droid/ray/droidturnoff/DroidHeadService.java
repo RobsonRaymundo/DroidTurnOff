@@ -36,7 +36,7 @@ public class DroidHeadService extends Service {
     private Context context;
     private View.OnTouchListener onTouchListener;
     private Intent mIntentService;
-    private boolean killService = false;
+    public static boolean killService = false;
 
     public enum EnumStateButton {
         CLOSE,
@@ -62,7 +62,7 @@ public class DroidHeadService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // Not used
-        Log.d("DroidTurnOff", "DroidHeadService - onBind");
+        Log.d(DroidCommon.TAG, "DroidHeadService - onBind");
         return null;
     }
 
@@ -72,14 +72,14 @@ public class DroidHeadService extends Service {
         InicializarVariavel();
         InicializarAcao();
         AtualizarPosicao();
-        Log.d("DroidTurnOff", "DroidHeadService - onCreate");
+        Log.d(DroidCommon.TAG, "DroidHeadService - onCreate");
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         //call widget update methods/services/broadcasts
-        Log.d("DroidTurnOff", "onTouch - Neworientation: " + newConfig.orientation);
+        Log.d(DroidCommon.TAG, "onTouch - Neworientation: " + newConfig.orientation);
         //GravarPosicaoAtual();
         AtualizarPosicao();
     }
@@ -89,7 +89,7 @@ public class DroidHeadService extends Service {
             Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
             v.vibrate(valor);
         } catch (Exception ex) {
-            Log.d("DroidTurnOff", "Vibrar: " + ex.getMessage());
+            Log.d(DroidCommon.TAG, "Vibrar: " + ex.getMessage());
         }
     }
 
@@ -106,11 +106,11 @@ public class DroidHeadService extends Service {
             windowManager.updateViewLayout(chatHead, params);
 
         } catch (Exception ex) {
-            Log.d("DroidTurnOff", "InicializarVariavel: " + ex.getMessage());
+            Log.d(DroidCommon.TAG, "InicializarVariavel: " + ex.getMessage());
         }
 
-        Log.d("DroidTurnOff", "onTouch - x: " + DroidPreferences.GetInteger(context, "params.x"));
-        Log.d("DroidTurnOff", "onTouch - y: " + DroidPreferences.GetInteger(context, "params.y"));
+        Log.d(DroidCommon.TAG, "onTouch - x: " + DroidPreferences.GetInteger(context, "params.x"));
+        Log.d(DroidCommon.TAG, "onTouch - y: " + DroidPreferences.GetInteger(context, "params.y"));
     }
 
     private void GravarPosicaoAtual() {
@@ -175,7 +175,7 @@ public class DroidHeadService extends Service {
                     }
                     catch (Exception ex)
                     {
-                        Log.d("DroidTurnOff", "stopSelf: " + ex.getMessage());
+                        Log.d(DroidCommon.TAG, "stopSelf: " + ex.getMessage());
                     }
 
 
@@ -211,7 +211,7 @@ public class DroidHeadService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("DroidTurnOff", "DroidHeadService - onStartCommand");
+        Log.d(DroidCommon.TAG, "DroidHeadService - onStartCommand");
         return START_NOT_STICKY;
     }
 
@@ -225,13 +225,13 @@ public class DroidHeadService extends Service {
         if (!killService) {
             Intent broadcastIntent = new Intent("com.droid.ray.droidturnoff.ACTION_RESTART_SERVICE");
             sendBroadcast(broadcastIntent);
-            Log.d("DroidTurnOff", "DroidHeadService - onDestroy");
+            Log.d(DroidCommon.TAG, "DroidHeadService - onDestroy");
         }
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        Log.d("DroidTurnOff", "DroidHeadService - onUnbind");
+        Log.d(DroidCommon.TAG, "DroidHeadService - onUnbind");
         return super.onUnbind(intent);
 
     }
@@ -239,30 +239,30 @@ public class DroidHeadService extends Service {
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
-        Log.d("DroidTurnOff", "DroidHeadService - onTaskRemoved");
+        Log.d(DroidCommon.TAG, "DroidHeadService - onTaskRemoved");
 
         if (!killService) {
             Intent broadcastIntent = new Intent("com.droid.ray.droidturnoff.ACTION_RESTART_SERVICE");
             sendBroadcast(broadcastIntent);
-            Log.d("DroidTurnOff", "DroidHeadService - onDestroy");
+            Log.d(DroidCommon.TAG, "DroidHeadService - onDestroy");
         }
     }
 
     @Override
     public void onTrimMemory(int level) {
-        Log.d("DroidTurnOff", "DroidHeadService - onTrimMemory");
+        Log.d(DroidCommon.TAG, "DroidHeadService - onTrimMemory");
         super.onTrimMemory(level);
     }
 
     @Override
     public void onLowMemory() {
-        Log.d("DroidTurnOff", "DroidHeadService - onLowMemory");
+        Log.d(DroidCommon.TAG, "DroidHeadService - onLowMemory");
         super.onLowMemory();
     }
 
     @Override
     public void onRebind(Intent intent) {
-        Log.d("DroidTurnOff", "DroidHeadService - onRebind");
+        Log.d(DroidCommon.TAG, "DroidHeadService - onRebind");
         super.onRebind(intent);
     }
 

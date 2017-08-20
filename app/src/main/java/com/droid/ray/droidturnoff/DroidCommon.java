@@ -11,14 +11,18 @@ import android.widget.Toast;
  * Created by Robson on 20/08/2017.
  */
 
+
+
 public class DroidCommon {
+    public static String TAG = "DroidTurnOff";
+
     public static boolean AtivarBotaoFlutuante(final Context context) {
         boolean spf = false;
         try {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
             spf = sp.getBoolean("spf_botaoFlutuante", true);
         } catch (Exception ex) {
-            Log.d("DroidTurnOff", ex.getMessage());
+            Log.d(TAG, "AtivarBotaoFlutuante - " + ex.getMessage());
         }
         return spf;
     }
@@ -35,7 +39,7 @@ public class DroidCommon {
         } catch (Exception ex) {
             Toast.makeText(context, R.string.device_admin_not_enabled,
                     Toast.LENGTH_LONG).show();
-            Log.d("DroidTurnOff", "turnOffScreen: " + ex.getMessage());
+            Log.d(TAG, "turnOffScreen - Erro: " + ex.getMessage());
 
         }
     }
@@ -47,19 +51,20 @@ public class DroidCommon {
         try {
             if (!start) {
                 context.stopService(intentService);
+                DroidHeadService.killService = true;
+                Log.d(TAG, "stopService");
             }
 
         } catch (Exception ex) {
-            Log.d("DroidTurnOff", "DroidRestartApp - onReceive - stopService - Erro: " + ex.getMessage());
+            Log.d(TAG, "stopService - Erro: " + ex.getMessage());
         }
         try {
             if (start) {
                 context.startService(intentService);
+                Log.d(TAG, "startService");
             }
-            Log.d("DroidTurnOff", "DroidRestartApp - onReceive ");
-
         } catch (Exception ex) {
-            Log.d("DroidTurnOff", "DroidRestartApp - onReceive - startService - Erro: " + ex.getMessage());
+            Log.d(TAG, "starService - Erro: " + ex.getMessage());
         }
     }
 

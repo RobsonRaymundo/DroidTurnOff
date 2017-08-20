@@ -1,33 +1,17 @@
 package com.droid.ray.droidturnoff;
 
 import android.app.AlertDialog;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.widget.Toast;
 
 public class DroidConfigurationActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
-
-
-    private static final int RESULT_ENABLE = RESULT_CANCELED;
     private Context context;
-
-    SharedPreferences appPreferences;
-    boolean isAppInstalled = false;
-
     public Object getThis() {
         return this;
     }
@@ -48,7 +32,7 @@ public class DroidConfigurationActivity extends PreferenceActivity implements Sh
             PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
         }
 
-        Log.d("DroidTurnOff", "onCreate ");
+        Log.d(DroidCommon.TAG, "onCreate ");
 
     }
 
@@ -67,8 +51,12 @@ public class DroidConfigurationActivity extends PreferenceActivity implements Sh
                         getApplicationContext(), R.mipmap.button));
         if (remove) {
             intent.setAction("com.android.launcher.action.UNINSTALL_SHORTCUT");
+            Log.d(DroidCommon.TAG, "RemoveShortCut ");
         }
-        else intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        else {
+            intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+            Log.d(DroidCommon.TAG, "CreatehortCut");
+        }
         getApplicationContext().sendBroadcast(intent);
 
     }
@@ -76,7 +64,9 @@ public class DroidConfigurationActivity extends PreferenceActivity implements Sh
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
         DroidCommon.stopStartService(context, DroidCommon.AtivarBotaoFlutuante(context));
+        Log.d(DroidCommon.TAG, "onDestroy");
     }
 
     private void ShowDeviceAdmin() {
@@ -84,7 +74,7 @@ public class DroidConfigurationActivity extends PreferenceActivity implements Sh
             DroidShowDeviceAdmin.Show(this);
 
         } catch (Exception ex) {
-            Log.d("DroidTurnOff", "ShowDeviceAdmin - Erro: " + ex.getMessage());
+            Log.d(DroidCommon.TAG, " - Erro: " + ex.getMessage());
         }
     }
 
@@ -113,12 +103,9 @@ public class DroidConfigurationActivity extends PreferenceActivity implements Sh
                 Exception ex)
 
         {
-            Log.d("DroidTurnOff", "ShowDialog - Erro: " + ex.getMessage());
+            Log.d(DroidCommon.TAG, " - Erro: " + ex.getMessage());
         }
     }
-
-
-
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
@@ -126,6 +113,7 @@ public class DroidConfigurationActivity extends PreferenceActivity implements Sh
         CreateRemoveShortCut(ativarBotaoFlutuante);
         DroidCommon.stopStartService(context, ativarBotaoFlutuante);
         finish();
+        Log.d(DroidCommon.TAG, " onSharedPreferenceChanged " );
     }
 }
 
