@@ -48,9 +48,11 @@ public class DroidHeadService extends Service {
     WindowManager.LayoutParams params = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.TYPE_PHONE,
+            WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             PixelFormat.TRANSLUCENT);
+
+    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
 
     private void TimeSleep(Integer seg) {
         try {
@@ -212,10 +214,8 @@ public class DroidHeadService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(DroidCommon.TAG, "DroidHeadService - onStartCommand");
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
-
-
 
     @Override
     public void onDestroy() {
