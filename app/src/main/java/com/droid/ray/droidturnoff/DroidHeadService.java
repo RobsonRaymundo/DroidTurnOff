@@ -1,33 +1,27 @@
 package com.droid.ray.droidturnoff;
 
 
-import android.app.AlertDialog;
+
 import android.app.Service;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Vibrator;
-import android.support.annotation.IntDef;
 import android.util.Log;
-import android.view.Display;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 public class DroidHeadService extends Service {
     private WindowManager windowManager;
     private ImageView chatHead;
+    //private TextView txtHead;
 
     private int initialX;
     private int initialY;
@@ -35,7 +29,6 @@ public class DroidHeadService extends Service {
     private float initialTouchY;
     private Context context;
     private View.OnTouchListener onTouchListener;
-    private Intent mIntentService;
     public static boolean killService = false;
 
     public enum EnumStateButton {
@@ -48,18 +41,10 @@ public class DroidHeadService extends Service {
     WindowManager.LayoutParams params = new WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
+            WindowManager.LayoutParams.TYPE_PHONE,
+            //WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             PixelFormat.TRANSLUCENT);
-
-    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-
-    private void TimeSleep(Integer seg) {
-        try {
-            Thread.sleep(seg);
-        } catch (Exception ex) {
-        }
-    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -106,6 +91,7 @@ public class DroidHeadService extends Service {
             }
 
             windowManager.updateViewLayout(chatHead, params);
+            //windowManager.updateViewLayout(txtHead, params);
 
         } catch (Exception ex) {
             Log.d(DroidCommon.TAG, "InicializarVariavel: " + ex.getMessage());
@@ -132,14 +118,21 @@ public class DroidHeadService extends Service {
 
         chatHead = new ImageView(context);
         chatHead.setImageResource(R.mipmap.stoprec);
+        //txtHead = new TextView(context);
+        //txtHead.setTextSize(20);
+        //txtHead.setText("100");
+
         StateButton = EnumStateButton.VIEW;
         params.gravity = Gravity.CENTER;
         windowManager.addView(chatHead, params);
+        //windowManager.addView(txtHead, params);
 
     }
 
     private void InicializarAcao() {
+        //txtHead.setOnTouchListener(onTouchListener);
         chatHead.setOnTouchListener(onTouchListener);
+
     }
 
 
@@ -202,6 +195,7 @@ public class DroidHeadService extends Service {
                     Integer totalMoveY = (int) (event.getRawY() - initialTouchY);
                     params.y = initialY + totalMoveY;
                     windowManager.updateViewLayout(chatHead, params);
+                  //  windowManager.updateViewLayout(txtHead, params);
                     GravarPosicaoAtual();
                     return true;
             }
@@ -221,6 +215,7 @@ public class DroidHeadService extends Service {
     public void onDestroy() {
         super.onDestroy();
         if (chatHead != null) windowManager.removeView(chatHead);
+        //if (txtHead != null) windowManager.removeView(txtHead);
 
         if (!killService) {
             Intent broadcastIntent = new Intent("com.droid.ray.droidturnoff.ACTION_RESTART_SERVICE");
