@@ -12,6 +12,9 @@ import android.util.Log;
 public class DroidRestartApp extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        DroidCommon.stopStartService(context, DroidCommon.AtivarBotaoFlutuante(context));
+        if (DroidPreferences.GetInteger(context, "show") == 1) {
+            DroidCommon.stopStartService(context, DroidCommon.AtivarBotaoFlutuante(context));
+        }
+
     }
 }

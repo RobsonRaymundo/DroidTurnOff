@@ -131,8 +131,12 @@ public class DroidHeadService extends Service {
 
     private void InicializarAcao() {
         //txtHead.setOnTouchListener(onTouchListener);
-        chatHead.setOnTouchListener(onTouchListener);
 
+        try {
+            DroidPreferences.SetInteger(context, "show", 1);
+            chatHead.setOnTouchListener(onTouchListener);
+        } catch (Exception ex) {
+        }
     }
 
 
@@ -222,6 +226,7 @@ public class DroidHeadService extends Service {
             sendBroadcast(broadcastIntent);
             Log.d(DroidCommon.TAG, "DroidHeadService - onDestroy");
         }
+        DroidPreferences.SetInteger(context, "show", 0);
     }
 
     @Override
