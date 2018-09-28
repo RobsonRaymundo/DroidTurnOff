@@ -5,10 +5,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.drawable.Icon;
+import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+
+import java.util.Arrays;
 
 public class DroidConfigurationActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private Context context;
@@ -34,6 +42,7 @@ public class DroidConfigurationActivity extends PreferenceActivity implements Sh
 
         Log.d(DroidCommon.TAG, "onCreate ");
 
+
     }
 
     private void CreateRemoveShortCut(Boolean remove) {
@@ -41,6 +50,7 @@ public class DroidConfigurationActivity extends PreferenceActivity implements Sh
                 DroidTurnOffActivity.class);
         shortcutIntent.setAction(Intent.ACTION_MAIN);
         Intent intent = new Intent();
+
         intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
         intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "Desligar");
         intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
@@ -85,6 +95,7 @@ public class DroidConfigurationActivity extends PreferenceActivity implements Sh
                     finish();
 
                 }
+
             });
             builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
